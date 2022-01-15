@@ -109,6 +109,7 @@ class ispconfig3_forward extends rcube_plugin
                 }
 
                 $params['cc'] = $forward;
+                $params['forward_in_lda'] = ($type != 'del' ? 'y' : 'n');
 
                 $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
 
@@ -158,7 +159,7 @@ class ispconfig3_forward extends rcube_plugin
             $input_forwardingaddress = new html_inputfield(array(
                 'name' => '_' . $field_id,
                 'id' => $field_id,
-                'value' => $mail_user[0]['cc'],
+                'value' => '',
                 'maxlength' => 320,
                 'size' => 40
             ));
@@ -186,7 +187,7 @@ class ispconfig3_forward extends rcube_plugin
 
         $rule_table = new html_table(array('id'    => 'rule-table',
                                            'class' => 'records-table', 'cellspacing' => '0', 'cols' => 2));
-        $rule_table->add_header(null, $this->gettext('forward_entries'));
+        $rule_table->add_header(null, $this->gettext('forwardingaddress'));
         $rule_table->add_header(array('width' => '16px'), '');
 
         try {
@@ -224,7 +225,7 @@ class ispconfig3_forward extends rcube_plugin
         $out .= "<div id=\"rule-cont\">" . $rule_table->show() . "</div>\n";
         $out .= "</fieldset>\n";
         $out .= '</form>';
-        
+
         return $out;
     }
 
